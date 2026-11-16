@@ -638,11 +638,15 @@ function bindUIInteractions() {
   const audioBtn = document.getElementById('btn-audio-toggle');
   const audioLabel = document.getElementById('audio-btn-label');
   const heroAudioCta = document.getElementById('cta-awaken-acoustics');
+  const heroAudioZh = document.getElementById('hero-audio-zh');
+  const heroAudioEn = document.getElementById('hero-audio-en');
 
   const handleAudioToggle = async () => {
     const active = await audioEngine.toggle();
     audioBtn.setAttribute('aria-pressed', active ? 'true' : 'false');
-    audioLabel.textContent = active ? '神经谐振中 · Live' : '声学静音 · Muted';
+    audioLabel.textContent = active ? '泛音声场 · Live' : '声学静音 · Muted';
+    if (heroAudioZh) heroAudioZh.textContent = active ? '轻触拨动泛音和弦' : '开启空灵泛音声场';
+    if (heroAudioEn) heroAudioEn.textContent = active ? 'Pluck Harmonic Chord' : 'Awaken Ambient Soundscape';
   };
 
   audioBtn.addEventListener('click', handleAudioToggle);
@@ -651,7 +655,7 @@ function bindUIInteractions() {
       if (!audioEngine.enabled) {
         await handleAudioToggle();
       } else {
-        audioEngine.triggerBoundaryPulse(0.9);
+        audioEngine.playChordCue();
       }
     });
   }
@@ -674,6 +678,7 @@ function bindUIInteractions() {
         ...dim.preset,
         lantern: 0.0,
       });
+      audioEngine.playChordCue();
     });
   });
 
@@ -710,6 +715,7 @@ function bindUIInteractions() {
         ...PROTOTYPES[idx].shaderState,
         lantern: 0.0,
       });
+      audioEngine.playChordCue();
     });
   });
 
@@ -723,7 +729,7 @@ function bindUIInteractions() {
         ? '<span>主权豁免已激活 · Dissonance Silenced for Chosen Path</span>'
         : '<span>触发“主权豁免” · Engage Sovereign Override</span>';
       syncSensoryParameters({});
-      audioEngine.triggerBoundaryPulse(0.8);
+      audioEngine.playChordCue();
     });
   }
 
@@ -738,6 +744,7 @@ function bindUIInteractions() {
         ? '无言之灯已点亮 · SILENT LANTERN LIT'
         : '点亮无言之灯 · ENTER SILENT LANTERN MODE';
       syncSensoryParameters({ lantern: nextLantern });
+      audioEngine.playChordCue();
     });
   }
 
