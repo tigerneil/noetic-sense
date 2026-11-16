@@ -66,14 +66,10 @@ def publish_via_xmlrpc(username: str, app_password: str, post_status: str) -> st
         thumbnail_id = upload_res.get("id")
         img_url = upload_res.get("url")
         if img_url:
-            hero_block = (
-                f'<!-- wp:image {{"sizeSlug":"large"}} -->\n'
-                f'<figure class="wp-block-image size-large">'
-                f'<img src="{img_url}" alt="智觉 · Noetic Sense — Three.js WebGPU &amp; TSL Manifold" />'
-                f'<figcaption class="wp-element-caption">智觉（Noetic Sense）：基于 Three.js WebGPU 与 TSL 计算着色器实时演化的主权心智薄膜与 4,096 颗因果孢子流形。</figcaption>'
-                f"</figure>\n<!-- /wp:image -->\n\n"
+            html_body = html_body.replace(
+                "https://raw.githubusercontent.com/tigerneil/noetic-sense/main/blog/noetic-sense-cover.png",
+                img_url,
             )
-            html_body = hero_block + html_body
 
     print(f"[2/2] Creating post on xiaohuzhu.xyz (status={post_status})...")
     content_struct = {
